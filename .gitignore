@@ -19,6 +19,7 @@
 *.rar
 *.tar
 *.zip
+*.pdf
  
 # Logs and databases #
 ######################
@@ -35,3 +36,13 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+#ignored folders :#
+###################
+bin/**
+.settings/**
+
+#eclipse specific:#
+###################
+.project
+.classpath
