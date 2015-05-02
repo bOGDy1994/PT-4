@@ -4,9 +4,9 @@ import org.joda.time.DateTime;
 
 public class SpendingAccount extends Account {
 
-	public SpendingAccount(double inMoney) 
+	public SpendingAccount(double inMoney, String nume) 
 	{
-		super(inMoney);
+		super(inMoney, nume);
 		numberOfTransactions = -1;//we may do up to three transactions
 		dateOfLastTransaction = new DateTime(1971,1,1,0,0);//this is the initialization date
 		minSumMoney = 10.00;

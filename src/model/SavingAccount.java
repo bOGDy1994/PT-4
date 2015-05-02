@@ -4,9 +4,9 @@ import org.joda.time.DateTime;
 
 public class SavingAccount extends Account {
 
-	public SavingAccount(double inMoney) 
+	public SavingAccount(double inMoney, String nume) 
 	{
-		super(inMoney);
+		super(inMoney, nume);
 		dateOfLastTransaction = new DateTime(1971,1,1,0,0);//this is the initialization date
 		minSumMoney = 500.00;
 		maxSumMoney = 100000.00;
