@@ -15,6 +15,7 @@ public interface BankProc {
 	 * @pre p.getEmail().equals(*@*.*)
 	 * @pre inMoney>0
 	 * @pre t!=NULL
+	 * @pre a.getName().equals("")!=NULL
 	 * @pre  Entry<p, a> entry ==NULL
 	 * @post Entry<p, a> entry !=NULL
 	 */
@@ -26,7 +27,7 @@ public interface BankProc {
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
 	 * @pre p.getEmail().equals(*@*.*)
-	 * @pre inMoney>0
+	 * @pre a.getName().equals("")!=NULL
 	 * @pre Entry<p, a> entry !=NULL
 	 * @post Entry<p, a> entry ==NULL
 	 */
@@ -39,6 +40,7 @@ public interface BankProc {
 	 * @pre p.getPhonenumber().length == 10 
 	 * @pre p.getEmail().equals(*@*.*)
 	 * @pre inMoney>0
+	 * @pre a.getName().equals("")!=NULL
 	 * @pre t!=NULL
 	 * @pre Entry<p, a> entry == NULL
 	 * @post Entry<Person, Account> entry !=NULL
