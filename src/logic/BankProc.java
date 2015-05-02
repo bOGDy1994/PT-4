@@ -13,13 +13,12 @@ public interface BankProc {
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
 	 * @pre p.getEmail().equals(*@*.*)
-	 * @pre inMoney>0
 	 * @pre t!=NULL
-	 * @pre a.getName().equals("")!=NULL
+	 * @pre !a.getName().equals("")
 	 * @pre  Entry<p, a> entry ==NULL
 	 * @post Entry<p, a> entry !=NULL
 	 */
-	public void addAccount(Person p, Account a, double inMoney, Types.accountTypes t);
+	public void addAccount(Person p, Account a);
 	/**
 	 * 
 	 * @pre p.getID()>=0 
@@ -39,13 +38,12 @@ public interface BankProc {
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
 	 * @pre p.getEmail().equals(*@*.*)
-	 * @pre inMoney>0
 	 * @pre a.getName().equals("")!=NULL
 	 * @pre t!=NULL
 	 * @pre Entry<p, a> entry == NULL
 	 * @post Entry<Person, Account> entry !=NULL
 	 */
-	public void addPerson(Person p, Account a, double inMoney, Types.accountTypes t);
+	public void addPerson(Person p, Account a);
 	/**
 	 * 
 	 * @pre p.getID()>=0 
