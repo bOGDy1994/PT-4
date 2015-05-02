@@ -10,15 +10,27 @@ public abstract class Account {
 	protected double minSumMoney;//we have a minimum sum to retrieve. if the sum is lower than this, we will not give money to the user
 	protected double maxSumMoney;//we have a maximum limit for the sum in both cases
 	protected String errorMessage;
+	protected String accountName;
 	
-	public Account(double inMoney)
+	public Account(double inMoney, String nume)
 	{
 		money = inMoney;
+		accountName = nume;
 	}
 	
 	public String getError()
 	{
 		return errorMessage;
+	}
+	
+	public double getMoney()
+	{
+		return money;
+	}
+	
+	public String getName()
+	{
+		return accountName;
 	}
 
 	public abstract void update(double interest, double taxes);
