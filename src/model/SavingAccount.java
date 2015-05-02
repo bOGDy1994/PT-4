@@ -15,7 +15,7 @@ public class SavingAccount extends Account {
 	@Override
 	public void update(double interest, double taxes) 
 	{
-		money = money * interest;//we computate the money by using a monthly loan
+		money = money + money * interest;//we computate the money by using a monthly loan
 		money = money - 0.5*taxes;//as we are in a Saving Account, we suppose that we pay only 50% of the taxes
 	}
 
@@ -24,7 +24,7 @@ public class SavingAccount extends Account {
 	{
 		DateTime date = new DateTime();
 		//we may extract exactly once per month
-		if((date.monthOfYear()==dateOfLastTransaction.monthOfYear())&&(date.year() == dateOfLastTransaction.year()))
+		if((date.getMonthOfYear()==dateOfLastTransaction.getMonthOfYear())&&(date.getYear() == dateOfLastTransaction.getYear()))
 		{
 			errorMessage = "You already made a transaction this month!";
 			return false;

@@ -7,7 +7,7 @@ public class SpendingAccount extends Account {
 	public SpendingAccount(double inMoney, String nume) 
 	{
 		super(inMoney, nume);
-		numberOfTransactions = -1;//we may do up to three transactions
+		numberOfTransactions = 0;//we may do up to three transactions
 		dateOfLastTransaction = new DateTime(1971,1,1,0,0);//this is the initialization date
 		minSumMoney = 10.00;
 		maxSumMoney = 5000.00;
@@ -16,7 +16,7 @@ public class SpendingAccount extends Account {
 	@Override
 	public void update(double interest, double taxes) 
 	{
-		money = money * interest;//we computate the money by using a monthly loan
+		money = money + money * interest;//we computate the money by using a monthly loan
 		money = money - taxes;//as we are in a Spending Account, we suppose that we pay all of the taxes
 	}
 
@@ -42,13 +42,16 @@ public class SpendingAccount extends Account {
 			return false;
 		}
 		money = money - sum;
-		if(!date.equals(dateOfLastTransaction))
-			numberOfTransactions = 0;
-		else
+		if((date.getDayOfMonth() == dateOfLastTransaction.getDayOfMonth())&&(date.getMonthOfYear() == dateOfLastTransaction.getMonthOfYear())&&(date.getYear() == dateOfLastTransaction.getYear()))
 		{
-			dateOfLastTransaction = date;
+			System.out.println("here...");
 			numberOfTransactions++;
 		}
+		else
+		{
+			numberOfTransactions = 1;
+		}
+		dateOfLastTransaction = date;
 		return true;
 	}
 
