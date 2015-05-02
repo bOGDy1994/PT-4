@@ -14,6 +14,8 @@ import src.model.Person;
 
 public class Bank implements BankProc {
 	private HashMap<Person, List<Account>> AccountList;
+	private double interest = 0.25;
+	private double taxes = 30.00;
 		
 		
 	public Bank()
@@ -174,6 +176,16 @@ public class Bank implements BankProc {
 			List<Account> a = entry.getValue();
 			assert(a!=null);
 		}
+	}
+	
+	public void update()
+	{
+		for(Entry<Person,List<Account>> entry : AccountList.entrySet())
+		{
+			List<Account> showL = entry.getValue();
+			for(Account it : showL)
+				it.update(interest, taxes);
+		}		
 	}
 
 }
