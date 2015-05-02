@@ -1,4 +1,4 @@
-package logic;
+package src.logic;
 
 public interface BankProc {
 
