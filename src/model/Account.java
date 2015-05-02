@@ -14,7 +14,9 @@ public abstract class Account {
 	
 	public Account(double inMoney, String nume)
 	{
-		money = inMoney;
+		if(inMoney > 0.000)
+			money = inMoney;
+		else money = 0.00;
 		accountName = nume;
 	}
 	
