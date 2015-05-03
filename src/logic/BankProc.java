@@ -3,7 +3,7 @@ package src.logic;
 import src.model.Account;
 import src.model.Person;
 import src.model.Types;
-
+ 
 public interface BankProc {
 
 	/**
