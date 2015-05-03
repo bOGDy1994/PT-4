@@ -4,8 +4,8 @@ import org.joda.time.DateTime;
 
 public class Observer implements Runnable {
 
-	public DateTime d = new DateTime();
-	public DateTime dateOfLastUpdate = new DateTime(1971,1,1,0,0);
+	private DateTime d = new DateTime();
+	private DateTime dateOfLastUpdate = new DateTime(1971,1,1,0,0);
 	Bank b;
 	
 	public Observer(Bank inB)
