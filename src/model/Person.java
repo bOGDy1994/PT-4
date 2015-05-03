@@ -1,15 +1,15 @@
 package src.model;
 
-public class Person {
-	private int id;
+import java.io.Serializable;
+
+public class Person implements Serializable {
 	private int age;
 	private String name;
 	private String phonenumber;
 	private String email;
 	
-	public Person(int inID, int inAge, String inName, String inPhonenumber, String inEmail)
+	public Person(int inAge, String inName, String inPhonenumber, String inEmail)
 	{
-		id = inID;
 		age = inAge;
 		name = inName;
 		phonenumber = inPhonenumber;
@@ -46,10 +46,6 @@ public class Person {
 		return true;
 	}
 	
-	public int getID()
-	{
-		return id;
-	}
 	
 	public int getAge()
 	{
