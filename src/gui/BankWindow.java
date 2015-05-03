@@ -10,6 +10,13 @@ import javax.swing.JTable;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -21,6 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 import src.logic.Bank;
+import src.logic.Observer;
 import src.model.Account;
 import src.model.Person;
 import src.model.SavingAccount;
@@ -56,6 +64,7 @@ public class BankWindow {
 	private JLabel lblSumOfMoney;
 	private JTextField textField_6;
 	private Bank b;
+	private Observer obs;
 
 	/**
 	 * Launch the application.
@@ -75,6 +84,7 @@ public class BankWindow {
 	
 	private void FillComboBox()
 	{
+		comboBox.removeAllItems();
 		comboBox.addItem("Spending Account");
 		comboBox.addItem("Saving Account");
 	}
@@ -109,7 +119,25 @@ public class BankWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		b = new Bank();
+		FileInputStream fi = null;
+		b = null;
+		try{
+			 FileInputStream fileIn = new FileInputStream("bank.ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         b = (Bank)in.readObject();
+	         in.close();
+	         fileIn.close();
+		}
+		catch(IOException e)
+		{
+			//e.printStackTrace();
+		}
+		catch(ClassNotFoundException e)
+		{
+			
+		}
+		if(b==null)
+			b= new Bank();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -247,6 +275,27 @@ public class BankWindow {
 		textField_6.setColumns(10);
 		textField_6.setBounds(172, 480, 95, 20);
 		frame.getContentPane().add(textField_6);
+		FillComboBox();
+		FillComboBox_1(b.getAccounts());
+		FillComboBox_2(b.getAccounts());
+		new Thread(obs).start();
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	 try
+		         {
+		            FileOutputStream fileOut =
+		            new FileOutputStream("bank.ser");
+		            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		            out.writeObject(b);
+		            out.close();
+		            fileOut.close();
+		         }catch(IOException i)
+		         {
+		             i.printStackTrace();
+		         }
+		    }
+		});
 	}
 	
 	private class AddPersonAction extends AbstractAction
