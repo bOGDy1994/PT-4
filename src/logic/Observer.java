@@ -6,7 +6,7 @@ public class Observer implements Runnable {
 
 	private DateTime d = new DateTime();
 	private DateTime dateOfLastUpdate = new DateTime(1971,1,1,0,0);
-	Bank b;
+	private Bank b;
 	
 	public Observer(Bank inB)
 	{
