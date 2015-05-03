@@ -17,9 +17,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.lang.Class;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -149,13 +152,10 @@ public class BankWindow {
 		JLabel lblPersonName = new JLabel("Person age: ");
 		lblPersonName.setBounds(403, 398, 95, 14);
 		frame.getContentPane().add(lblPersonName);
-	    String ColumnNames[] = {"test"};
-		Object data[][] = new Object[255][255];
-		DefaultTableModel m = new DefaultTableModel(data,ColumnNames);
+	   
 		table = new JTable();
 		table.setBounds(219, 104, 420, 231);
 		table.setEnabled(false);
-		table.setModel(m);
 		table.setVisible(true);
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(70, 104, 765, 231);
@@ -227,6 +227,7 @@ public class BankWindow {
 		
 		comboBox_1 = new JComboBox();
 		comboBox_1.setBounds(172, 398, 95, 21);
+		comboBox_1.addActionListener(new DynamicUpdateAction());
 		frame.getContentPane().add(comboBox_1);
 		
 		lblAccounts = new JLabel("Accounts : ");
@@ -278,6 +279,13 @@ public class BankWindow {
 		FillComboBox();
 		FillComboBox_1(b.getAccounts());
 		FillComboBox_2(b.getAccounts());
+		List<Account> il = new ArrayList<Account>();
+		for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+			if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+			{
+				il = entry.getValue();
+			}
+		updateTable(il);
 		new Thread(obs).start();
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
@@ -296,6 +304,45 @@ public class BankWindow {
 		         }
 		    }
 		});
+	}
+	
+	private void updateTable(List<Account> l)
+	{
+		if(l.size()>0)
+		{
+			Class c = l.get(0).getClass().getSuperclass();
+			Field[] f = c.getDeclaredFields();
+			String ColumnNames[] = new String[f.length];
+			int n = 0;
+			for(Field fi : f)
+			{
+				fi.setAccessible(true);
+				ColumnNames[n]=fi.getName();
+				n++;
+			}
+			Object data[][] = new Object[l.size()][n];
+			int i = 0;
+			for(Account ac : l)
+			{
+				int j = 0;
+				for(Field fi : f)
+					{
+						try {
+							data[i][j] = fi.get(ac);
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						j++;
+					}
+			 i++;
+			}
+			DefaultTableModel m = new DefaultTableModel(data,ColumnNames);
+			table.setModel(m);
+		}
 	}
 	
 	private class AddPersonAction extends AbstractAction
@@ -351,6 +398,13 @@ public class BankWindow {
 					}
 				FillComboBox_1(b.getAccounts());
 				FillComboBox_2(b.getAccounts());
+				List<Account> il = new ArrayList<Account>();
+				for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+					if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+					{
+						il = entry.getValue();
+					}
+				updateTable(il);
 			}
 		}
 		
@@ -403,6 +457,13 @@ public class BankWindow {
 					}
 				FillComboBox_1(b.getAccounts());
 				FillComboBox_2(b.getAccounts());
+				List<Account> il = new ArrayList<Account>();
+				for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+					if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+					{
+						il = entry.getValue();
+					}
+				updateTable(il);
 			}
 		}
 		
@@ -423,6 +484,13 @@ public class BankWindow {
 				b.removePerson(p);
 				FillComboBox_1(b.getAccounts());
 				FillComboBox_2(b.getAccounts());
+				List<Account> il = new ArrayList<Account>();
+				for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+					if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+					{
+						il = entry.getValue();
+					}
+				updateTable(il);
 			}
 		}
 		
@@ -457,6 +525,13 @@ public class BankWindow {
 				}
 				FillComboBox_1(b.getAccounts());
 				FillComboBox_2(b.getAccounts());
+				List<Account> il = new ArrayList<Account>();
+				for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+					if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+					{
+						il = entry.getValue();
+					}
+				updateTable(il);
 			}
 		}
 		
@@ -505,6 +580,13 @@ public class BankWindow {
 						JButton ok = new JButton("Ok");
 						JOptionPane.showMessageDialog(ok,a.getError());
 					}
+					List<Account> il = new ArrayList<Account>();
+					for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+						if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+						{
+							il = entry.getValue();
+						}
+					updateTable(il);
 				}
 			}
 		}
@@ -550,10 +632,35 @@ public class BankWindow {
 				else
 				{
 					a.addMoney(sum);
+					List<Account> il = new ArrayList<Account>();
+					for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+						if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+						{
+							il = entry.getValue();
+						}
+					updateTable(il);
 				}
 			}
 		}
 		
 	}
 	
+	private class DynamicUpdateAction extends AbstractAction
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			FillComboBox_2(b.getAccounts());
+			List<Account> il = new ArrayList<Account>();
+			for(Entry<Person,List<Account>> entry : b.getAccounts().entrySet())
+				if(entry.getKey().getName().equals(comboBox_1.getSelectedItem().toString()))
+				{
+					il = entry.getValue();
+				}
+			updateTable(il);
+		}
+		
+	}
+
 }
