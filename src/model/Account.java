@@ -1,8 +1,10 @@
 package src.model;
 
+import java.io.Serializable;
+
 import org.joda.time.DateTime;
 
-public abstract class Account {
+public abstract class Account implements Serializable {
 
 	protected double money;
 	protected int numberOfTransactions;//depends on the type of the account
