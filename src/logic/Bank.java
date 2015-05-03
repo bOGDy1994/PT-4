@@ -101,9 +101,13 @@ public class Bank implements BankProc,Serializable {
 			return;
 		}
 		isWellFormed();
+		if(errorMessage!=null)
+			return;
 		temp.add(a);
 		AccountList.put(p, temp);
 		isWellFormed();
+		if(errorMessage!=null)
+			return;
 		errorMessage = null;
 	}
 
@@ -171,10 +175,19 @@ public class Bank implements BankProc,Serializable {
 		try{
 			assert(l!=null);
 			isWellFormed();
+			if(errorMessage!=null)
+				return;
 			int index = l.indexOf(a);
 			l.remove(index);
 			AccountList.put(p, l);
 			isWellFormed();
+			if(errorMessage!=null)
+			{
+				l = AccountList.get(p);
+				l.add(a);
+				AccountList.put(p, l);
+				return;
+			}
 		}
 		catch(AssertionError e)
 		{
@@ -255,10 +268,14 @@ public class Bank implements BankProc,Serializable {
 			return;
 		}
 		isWellFormed();
+		if(errorMessage!=null)
+			return;
 		temp = new ArrayList<Account>();
 		temp.add(a);
 		AccountList.put(p, temp);
 		isWellFormed();
+		if(errorMessage!=null)
+			return;
 		errorMessage = null;
 	}
 
@@ -315,8 +332,12 @@ public class Bank implements BankProc,Serializable {
 			return;
 		}
 		isWellFormed();
+		if(errorMessage!=null)
+			return;
 		AccountList.remove(p);
 		isWellFormed();
+		if(errorMessage!=null)
+			return;
 		errorMessage = null;
 	}
 	
@@ -346,11 +367,11 @@ public class Bank implements BankProc,Serializable {
 		{
 			List<Account> a = entry.getValue();
 			try{
-			assert(a!=null);
+			assert(a.size()!=0);
 			}
 			catch(AssertionError e)
 			{
-				errorMessage = "Inconsistency in the data.";
+				errorMessage = "Inconsistency in the data. Nothing's changed.";
 				return;
 			}
 		}
