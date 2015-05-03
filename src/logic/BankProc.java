@@ -8,7 +8,6 @@ public interface BankProc {
 
 	/**
 	 * 
-	 * @pre p.getID()>=0 
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
@@ -20,8 +19,7 @@ public interface BankProc {
 	 */
 	public void addAccount(Person p, Account a);
 	/**
-	 * 
-	 * @pre p.getID()>=0 
+	 *  
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
@@ -32,8 +30,7 @@ public interface BankProc {
 	 */
 	public void removeAccount(Person p, Account a);
 	/**
-	 * 
-	 * @pre p.getID()>=0 
+	 *  
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
@@ -45,8 +42,7 @@ public interface BankProc {
 	 */
 	public void addPerson(Person p, Account a);
 	/**
-	 * 
-	 * @pre p.getID()>=0 
+	 *  
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
