@@ -1,5 +1,6 @@
 package src.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,21 +13,25 @@ import java.util.regex.Pattern;
 import src.model.Account;
 import src.model.Person;
 
-public class Bank implements BankProc {
+public class Bank implements BankProc,Serializable {
 	private HashMap<Person, List<Account>> AccountList;
 	private double interest = 0.25;
 	private double taxes = 30.00;
-		
+	private String errorMessage;
 		
 	public Bank()
 	{
 		AccountList = new HashMap<Person, List<Account>>();
 	}
+	
+	public String getError()
+	{
+		return errorMessage;
+	}
 		
 		
 	/**
-	 * 
-	 * @pre p.getID()>=0 
+	 *  
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
@@ -39,26 +44,71 @@ public class Bank implements BankProc {
 	@Override
 	public void addAccount(Person p, Account a) 
 	{
-		assert(p.getID()>=0);
-		assert(p.getAge()>=18);
+		try{
+			assert(p.getAge()>=18);	
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must be 18 years old to have a bank account!";
+			return;
+		}
+		try{
 		assert(!p.getName().equals(""));
-		assert(p.getPhonenumber().length() == 10);
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a name!";
+			return;
+		}
+		try{
+			String expression = "\\d{10}";
+			Pattern pattern = Pattern.compile(expression);
+			Matcher matcher = pattern.matcher(p.getPhonenumber());
+		assert(matcher.matches());
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a valid phonenumber!";
+			return;
+		}
+		try{
 		String expression = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
 		Pattern pattern = Pattern.compile(expression);
 		Matcher matcher = pattern.matcher(p.getEmail());
 		assert(matcher.matches());
+		}
+		catch (AssertionError e)
+		{
+			errorMessage = "You must input a valid email!";
+			return;
+		}
+		try
+		{
 		assert(!a.getName().equals(""));
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input an account name!";
+			return;
+		}
 		List<Account> temp = AccountList.get(p);
-		assert(temp!=null);
+		try{
+			assert(temp!=null);	
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must first add the person and account.";
+			return;
+		}
 		isWellFormed();
 		temp.add(a);
 		AccountList.put(p, temp);
 		isWellFormed();
+		errorMessage = null;
 	}
 
 	/**
-	 * 
-	 * @pre p.getID()>=0 
+	 *  
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
@@ -70,26 +120,72 @@ public class Bank implements BankProc {
 	@Override
 	public void removeAccount(Person p, Account a) 
 	{
-		assert(p.getID()>=0);
-		assert(p.getAge()>=18);
+		try{
+			assert(p.getAge()>=18);	
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must be 18 years old to have a bank account!";
+			return;
+		}
+		try{
 		assert(!p.getName().equals(""));
-		assert(p.getPhonenumber().length() == 10);
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a name!";
+			return;
+		}
+		try{
+			String expression = "\\d{10}";
+			Pattern pattern = Pattern.compile(expression);
+			Matcher matcher = pattern.matcher(p.getPhonenumber());
+		assert(matcher.matches());
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a valid phonenumber!";
+			return;
+		}
+		try{
 		String expression = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
 		Pattern pattern = Pattern.compile(expression);
 		Matcher matcher = pattern.matcher(p.getEmail());
 		assert(matcher.matches());
+		}
+		catch (AssertionError e)
+		{
+			errorMessage = "You must input a valid email!";
+			return;
+		}
+		try
+		{
 		assert(!a.getName().equals(""));
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input an account name!";
+			return;
+		}
 		List<Account> l = AccountList.get(p);
-		isWellFormed();
-		int index = l.indexOf(a);
-		l.remove(index);
-		AccountList.put(p, l);
-		isWellFormed();
+		try{
+			assert(l!=null);
+			isWellFormed();
+			int index = l.indexOf(a);
+			l.remove(index);
+			AccountList.put(p, l);
+			isWellFormed();
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "The account doesn't exits!";
+			return;
+		}
+		errorMessage = null;
 	}
 	
 	/**
-	 * 
-	 * @pre p.getID()>=0 
+	 *  
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
@@ -102,28 +198,72 @@ public class Bank implements BankProc {
 	@Override
 	public void addPerson(Person p, Account a) 
 	{
-		assert(p.getID()>=0);
-		assert(p.getAge()>=18);
+		try{
+			assert(p.getAge()>=18);	
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must be 18 years old to have a bank account!";
+			return;
+		}
+		try{
 		assert(!p.getName().equals(""));
-		assert(p.getPhonenumber().length() == 10);
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a name!";
+			return;
+		}
+		try{
+			String expression = "\\d{10}";
+			Pattern pattern = Pattern.compile(expression);
+			Matcher matcher = pattern.matcher(p.getPhonenumber());
+		assert(matcher.matches());
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a valid phonenumber!";
+			return;
+		}
+		try{
 		String expression = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
 		Pattern pattern = Pattern.compile(expression);
 		Matcher matcher = pattern.matcher(p.getEmail());
 		assert(matcher.matches());
+		}
+		catch (AssertionError e)
+		{
+			errorMessage = "You must input a valid email!";
+			return;
+		}
+		try
+		{
 		assert(!a.getName().equals(""));
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input an account name!";
+			return;
+		}
 		List<Account> temp = AccountList.get(p);
-		assert(temp==null);
+		try{
+			assert(temp==null);	
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "The person you are trying to add exists. Please add an account.";
+			return;
+		}
 		isWellFormed();
 		temp = new ArrayList<Account>();
 		temp.add(a);
 		AccountList.put(p, temp);
 		isWellFormed();
-
+		errorMessage = null;
 	}
 
 	/**
-	 * 
-	 * @pre p.getID()>=0 
+	 *  
 	 * @pre p.getAge()>=18 
 	 * @pre !p.getName().equals("") 
 	 * @pre p.getPhonenumber().length == 10 
@@ -136,18 +276,48 @@ public class Bank implements BankProc {
 	@Override
 	public void removePerson(Person p) 
 	{
-
-		assert(p.getID()>=0);
-		assert(p.getAge()>=18);
+		try{
+			assert(p.getAge()>=18);	
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must be 18 years old to have a bank account!";
+			return;
+		}
+		try{
 		assert(!p.getName().equals(""));
-		assert(p.getPhonenumber().length() == 10);
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a name!";
+			return;
+		}
+		try{
+			String expression = "\\d{10}";
+			Pattern pattern = Pattern.compile(expression);
+			Matcher matcher = pattern.matcher(p.getPhonenumber());
+		assert(matcher.matches());
+		}
+		catch(AssertionError e)
+		{
+			errorMessage = "You must input a valid phonenumber!";
+			return;
+		}
+		try{
 		String expression = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
 		Pattern pattern = Pattern.compile(expression);
 		Matcher matcher = pattern.matcher(p.getEmail());
 		assert(matcher.matches());
+		}
+		catch (AssertionError e)
+		{
+			errorMessage = "You must input a valid email!";
+			return;
+		}
 		isWellFormed();
 		AccountList.remove(p);
 		isWellFormed();
+		errorMessage = null;
 	}
 	
 	/**
@@ -157,6 +327,7 @@ public class Bank implements BankProc {
 	 */
 	public HashMap<Person,List<Account>> getAccounts()
 	{
+		errorMessage = null;
 		return AccountList;
 	}
 	
@@ -174,8 +345,16 @@ public class Bank implements BankProc {
 		for(Entry<Person,List<Account>> entry : AccountList.entrySet())
 		{
 			List<Account> a = entry.getValue();
+			try{
 			assert(a!=null);
+			}
+			catch(AssertionError e)
+			{
+				errorMessage = "Inconsistency in the data.";
+				return;
+			}
 		}
+		errorMessage = null;
 	}
 	
 	public void update()
@@ -185,7 +364,8 @@ public class Bank implements BankProc {
 			List<Account> showL = entry.getValue();
 			for(Account it : showL)
 				it.update(interest, taxes);
-		}		
+		}
+		errorMessage = null;
 	}
 
 }
