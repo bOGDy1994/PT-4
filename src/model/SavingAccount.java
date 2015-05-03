@@ -31,12 +31,12 @@ public class SavingAccount extends Account {
 		}
 		if(sum<minSumMoney)
 		{
-			errorMessage = "You must extract minimum " + minSumMoney + "to make a transaction for this account!";
+			errorMessage = "You must extract minimum " + minSumMoney + " to make a transaction for this account!";
 			return false;
 		}
 		if(sum>maxSumMoney)
 		{
-			errorMessage = "You must extract maximum " + maxSumMoney + "to make a transaction for this account!";
+			errorMessage = "You must extract maximum " + maxSumMoney + " to make a transaction for this account!";
 			return false;
 		}
 		money = money - sum;

@@ -24,7 +24,7 @@ public class SpendingAccount extends Account {
 	public boolean retrieveMoney(double sum) 
 	{
 		DateTime date = new DateTime();
-		if(date.equals(dateOfLastTransaction))
+		if((date.getDayOfMonth() == dateOfLastTransaction.getDayOfMonth())&&(date.getMonthOfYear() == dateOfLastTransaction.getMonthOfYear())&&(date.getYear() == dateOfLastTransaction.getYear()))
 			if (numberOfTransactions > 2)
 			{
 				errorMessage = "You cannot have more than three transactions per day!";
@@ -32,19 +32,18 @@ public class SpendingAccount extends Account {
 			}
 		if(sum<minSumMoney)
 		{
-			errorMessage = "You must extract minimum " + minSumMoney + "to make a transaction for this account!";
+			errorMessage = "You must extract minimum " + minSumMoney + " to make a transaction for this account!";
 			return false;
 		}
 		
 		if(sum>maxSumMoney)
 		{
-			errorMessage = "You must extract maximum " + maxSumMoney + "to make a transaction for this account!";
+			errorMessage = "You must extract maximum " + maxSumMoney + " to make a transaction for this account!";
 			return false;
 		}
 		money = money - sum;
 		if((date.getDayOfMonth() == dateOfLastTransaction.getDayOfMonth())&&(date.getMonthOfYear() == dateOfLastTransaction.getMonthOfYear())&&(date.getYear() == dateOfLastTransaction.getYear()))
 		{
-			System.out.println("here...");
 			numberOfTransactions++;
 		}
 		else
