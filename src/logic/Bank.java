@@ -25,7 +25,7 @@ public class Bank implements BankProc,Serializable {
 	}
 	
 	public String getError()
-	{
+	{ 
 		return errorMessage;
 	}
 		
